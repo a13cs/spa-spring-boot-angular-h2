@@ -1,0 +1,14 @@
+{
+  "name": "exampleProject",
+  "description": "example desc",
+  "tasks": [
+    {
+      "name": "exampleTask1",
+      "description": "example desc 1"
+    },
+    {
+      "name": "exampleTask2",
+      "description": "example desc 2"
+    }
+  ]
+}
