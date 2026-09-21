@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import static org.springframework.http.MediaType.TEXT_PLAIN_VALUE;
 
-@RestController("/")
+@RestController
 public class CheckController {
 
     @GetMapping(value = "ping", produces = TEXT_PLAIN_VALUE)

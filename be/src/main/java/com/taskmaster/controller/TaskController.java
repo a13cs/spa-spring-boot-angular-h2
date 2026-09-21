@@ -1,7 +1,6 @@
 package com.taskmaster.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.taskmaster.model.TaskDTO;
+import com.taskmaster.entity.Task;
 import com.taskmaster.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +17,8 @@ public class TaskController {
     TaskService taskService;
 
     @GetMapping("/tasks/{projectId}")
-    public ResponseEntity<List<TaskDTO>> findTasks(@PathVariable String projectId) throws JsonProcessingException {
-        List<TaskDTO> tasks = taskService.findTasksByProjectId(projectId);
+    public ResponseEntity<List<Task>> findTasks(@PathVariable String projectId) {
+        List<Task> tasks = taskService.findTasksByProjectId(projectId);
 
         return ResponseEntity.ok(tasks);
     }

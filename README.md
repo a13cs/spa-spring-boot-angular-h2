@@ -26,17 +26,12 @@ mvn clean install
 
 Get all projects:
 ```bash
-curl -H "Content-Type: application/json" http://localhost:8080/projects/all --show-headers
-```
-
-Get all projects by name:
-```bash
-curl -H "Content-Type: application/json" http://localhost:8080/projects/all/exampleProject --show-headers
+curl -H "Content-Type: application/json" http://localhost:8080/projects/all
 ```
 
 Save project:
 ```bash
-curl -H "Content-Type: application/json" http://localhost:8080/projects/all --show-headers -d '{
+curl -H "Content-Type: application/json" http://localhost:8080/projects -d '{
 "name": "exampleProject",
 "description": "example desc",
 "tasks": [
@@ -54,8 +49,8 @@ curl -H "Content-Type: application/json" http://localhost:8080/projects/all --sh
 
 Update project:
 ```bash
-curl -X PUT -H "Content-Type: application/json" http://localhost:8080/projects/all --show-headers -d '{
-"name": "exampleProject",
+curl -X PUT -H "Content-Type: application/json" http://localhost:8080/projects -d '{
+"name": "exampleProjectUpdated",
 "description": "example desc",
 "tasks": [
     {
@@ -72,11 +67,5 @@ curl -X PUT -H "Content-Type: application/json" http://localhost:8080/projects/a
 
 Delete project:
 ```bash
-curl -X DELETE -H "Content-Type: application/json" http://localhost:8080/projects/603646ee-8780-4c83-9b33-aa895b37d5c6 --show-headers
+curl -X DELETE -H "Content-Type: application/json" http://localhost:8080/projects/603646ee-8780-4c83-9b33-aa895b37d5c6
 ```
-
-Delete all projects by name:
-```bash
-curl -X DELETE -H "Content-Type: application/json" http://localhost:8080/projects/all/exampleProject --show-headers
-```
-

@@ -1,21 +1,25 @@
 package com.taskmaster.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+
+import java.util.Objects;
 
 @Entity
-@JsonIgnoreProperties({"project"})
 public class Task {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
+    @NotBlank
     String name;
 
     String description;
 
-    @ManyToOne(targetEntity = Project.class)
+    @JsonBackReference
+    @ManyToOne(targetEntity = Project.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id")
     Project project;
 
@@ -51,4 +55,17 @@ public class Task {
         this.project = project;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return Objects.equals(id, task.id)
+                && Objects.equals(name, task.name)
+                && Objects.equals(description, task.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, description);
+    }
 }
