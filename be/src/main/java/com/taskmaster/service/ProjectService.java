@@ -41,21 +41,15 @@ public class ProjectService {
     }
 
     @Transactional
-    public Project save(Project project) throws JsonProcessingException {
-        String id = project.getId();
-        Optional<Project> p = findById(id);
-        var message = "";
-        if (p.isPresent()) {
-            message = "Update";
-            deleteById(id);
-        } else {
-            message = "Save";
+    public Project save(String id, Project project) throws JsonProcessingException {
+        if (id != null && !id.equals(project.getId())) {
+            return null;
         }
 
         Project saved = projectRepository.saveAndFlush(project);
 
         String json = OM.writeValueAsString(saved);
-        LOGGER.info("{} project {}", message, json);
+        LOGGER.info("{} project {}", id == null ? "save" : "update", json);
 
         return saved;
     }

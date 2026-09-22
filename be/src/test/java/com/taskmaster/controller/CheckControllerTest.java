@@ -1,25 +1,33 @@
 package com.taskmaster.controller;
 
+import com.taskmaster.entity.Project;
+import com.taskmaster.service.ProjectService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(MockitoExtension.class)
 class CheckControllerTest {
 
+    @Mock
+    ProjectService projectService;
+
     @InjectMocks
-    CheckController testController;
+    ProjectController projectController;
 
     @Test
-    public void pingTest() {
-        ResponseEntity<String> response = testController.ping();
-        String ok = response.getBody();
+    public void findAllTest() {
+        ResponseEntity<List<Project>> response = projectController.findAll();
 
-        assertEquals("ok", ok);
+        List<Project> body = response.getBody();
+        assertTrue(body != null && body.isEmpty());
     }
 
 }

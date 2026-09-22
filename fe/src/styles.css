@@ -1,1 +1,25 @@
 /* You can add global styles to this file, and also import other style files */
+h1,h2,h3,h4,h5,h6 {
+  margin: 0 auto;
+  color: #222;
+}
+
+p {
+  margin: 0 0 15px;
+}
+
+a {
+  color: dodgerblue;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+

@@ -14,21 +14,23 @@ import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin(origins="http://localhost:4200", allowedHeaders = "*")
 @RestController
+@RequestMapping("/api/projects")
 public class ProjectController {
 
     @Autowired
     ProjectService projectService;
 
 
-    @GetMapping("projects/all")
+    @GetMapping("/all")
     public ResponseEntity<List<Project>> findAll() {
         List<Project> all = projectService.findAll();
 
         return ResponseEntity.ok(all);
     }
 
-    @GetMapping("projects/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Project> findById(@PathVariable String id) {
         Optional<Project> project = projectService.findById(id);
         if (project.isPresent()) {
@@ -38,9 +40,9 @@ public class ProjectController {
         }
     }
 
-    @PostMapping(value = "/projects", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ProjectIdResponse> save(@RequestBody @Valid Project project) throws JsonProcessingException {
-        Project saved = projectService.save(project);
+        Project saved = projectService.save(null, project);
 
         ProjectIdResponse response = new ProjectIdResponse();
         String id = saved.getId();
@@ -49,22 +51,21 @@ public class ProjectController {
         return ResponseEntity.created(URI.create("/" + id)).body(response);
     }
 
-    @PutMapping(value = "/projects", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Project> update(@RequestBody Project Project) throws JsonProcessingException {
-        String id = Project.getId();
-        if (id != null) {
-            if (projectService.existsById(id)) {
-
-                projectService.deleteById(id);
-                Project saved = projectService.save(Project);
-                return ResponseEntity.ok(saved);
-            }
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Project> update(@PathVariable String id, @RequestBody @Valid Project project) throws JsonProcessingException {
+        if (!id.equals(project.getId())) {
+            return ResponseEntity.badRequest().build();
+        }
+        if (projectService.existsById(id)) {
+            projectService.deleteById(id);
+            Project saved = projectService.save(id, project);
+            return ResponseEntity.ok(saved);
         }
 
         return ResponseEntity.notFound().build();
     }
 
-    @DeleteMapping(value = "/projects/{id}")
+    @DeleteMapping(value = "/{id}")
     public ResponseEntity<Project> delete(@PathVariable String id) {
         if (projectService.existsById(id)) {
             projectService.deleteById(id);
