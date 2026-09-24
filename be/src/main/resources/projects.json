@@ -4,11 +4,15 @@
   "tasks": [
     {
       "name": "exampleTask1",
-      "description": "example desc 1"
+      "description": "example desc 1",
+      "completed": false,
+      "dueDate": "2026-12-30"
     },
     {
       "name": "exampleTask2",
-      "description": "example desc 2"
+      "description": "example desc 2",
+      "completed": true,
+      "dueDate": "2026-05-15"
     }
   ]
 }

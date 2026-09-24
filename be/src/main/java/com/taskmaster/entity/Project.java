@@ -1,10 +1,7 @@
 package com.taskmaster.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
 import java.util.ArrayList;
@@ -16,7 +13,8 @@ import java.util.UUID;
 public class Project {
 
     @Id
-    String id = UUID.randomUUID().toString();
+    @GeneratedValue(strategy = GenerationType.UUID)
+    String id;
 
     @NotBlank
     String name;
@@ -24,7 +22,7 @@ public class Project {
     String description;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
     List<Task> tasks = new ArrayList<>();
 
     public void addTask(Task task) {

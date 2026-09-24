@@ -57,7 +57,6 @@ public class ProjectController {
             return ResponseEntity.badRequest().build();
         }
         if (projectService.existsById(id)) {
-            projectService.deleteById(id);
             Project saved = projectService.save(id, project);
             return ResponseEntity.ok(saved);
         }

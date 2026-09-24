@@ -46,7 +46,7 @@ public class ProjectService {
             return null;
         }
 
-        Project saved = projectRepository.saveAndFlush(project);
+        Project saved = projectRepository.save(project);
 
         String json = OM.writeValueAsString(saved);
         LOGGER.info("{} project {}", id == null ? "save" : "update", json);
