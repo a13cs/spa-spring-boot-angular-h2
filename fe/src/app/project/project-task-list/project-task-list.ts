@@ -1,43 +1,44 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, Input, signal, SimpleChanges, WritableSignal } from '@angular/core';
 import { ProjectService } from '../../project-service';
 import { Project } from '../../project.model';
-import { AsyncPipe, DatePipe, JsonPipe } from '@angular/common';
-import { Observable } from 'rxjs';
+import { DatePipe } from '@angular/common';
+
 
 @Component({
   selector: 'app-project-task-list',
-  imports: [DatePipe, JsonPipe, AsyncPipe],
+  imports: [DatePipe],
   templateUrl: './project-task-list.html',
   styleUrl: './project-task-list.css',
 })
-export class ProjectTaskList implements OnInit {
-  project: Project = {
+export class ProjectTaskList {
+  @Input() selectedProject: Project | undefined;
+
+  project: WritableSignal<Project> = signal({
     id: '',
     name: '',
     description: '',
     tasks: [],
-  };
+  });
 
-  p$: Observable<Project[]>;
-  projectService: ProjectService = inject(ProjectService);
-
+  // projectService: ProjectService = inject(ProjectService);
 
   constructor() {
-    this.p$ = this.projectService.getProjects();
-
-    this.p$.subscribe((projects) => {
-      var p = projects[0];
-
-      // this.projectService.getProject(p.id).subscribe((p) => {
-      this.project.id = p.id;
-      this.project.name = p.name;
-      this.project.description = p.description;
-      this.project.tasks = p.tasks;
-      // });
-    });
+    // this.projectService.getProjects().subscribe((projects) => {
+    //   this.project.set(projects[0]);
+    // this.projectService.getProject(this.project().id).subscribe((p) => {
+    //   console.log(p)
+    // });
+    // });
   }
 
-  ngOnInit(): void {
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['selectedProject'] && changes['selectedProject'].currentValue) {
+      let p = this.selectedProject;
 
+      // console.log(p);
+      if (p) {
+        this.project.set(p)
+      }
+    }
   }
 }

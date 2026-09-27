@@ -1,0 +1,6 @@
+<div class="project-container">
+  <app-projects-list (selectedProject)="p=$event"></app-projects-list>
+  <app-project-title [selectedProject]="p"></app-project-title>
+  <app-project-task-list [selectedProject]="p"></app-project-task-list>
+  <app-progress-bar></app-progress-bar>
+</div>

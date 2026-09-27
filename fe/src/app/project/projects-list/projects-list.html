@@ -1,0 +1,27 @@
+<div class="task-list-container">
+  <div class="heading">
+    <h3>Projects</h3>
+  </div>
+  <table>
+    <thead>
+    <tr>
+      <th>Project</th>
+      <th>Tasks</th>
+    </tr>
+    </thead>
+    <tbody>
+    @for(p of projects(); track p.id){
+    <tr>
+      <td>
+        <label (click)="log(p)">
+          {{ p.name }}
+        </label>
+      </td>
+      <td>
+        {{ p.tasks.length }}
+      </td>
+    </tr>
+    }
+    </tbody>
+  </table>
+</div>

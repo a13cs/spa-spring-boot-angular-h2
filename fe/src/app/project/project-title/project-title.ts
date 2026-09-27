@@ -1,7 +1,6 @@
-import { Component, inject } from '@angular/core';
-import { ProjectService } from '../../project-service';
-import { Observable } from 'rxjs';
+import { Component, Input, OnChanges, signal, SimpleChanges } from '@angular/core';
 import { Project } from '../../project.model';
+
 
 @Component({
   selector: 'app-project-title',
@@ -9,24 +8,22 @@ import { Project } from '../../project.model';
   templateUrl: './project-title.html',
   styleUrl: './project-title.css',
 })
-export class ProjectTitle {
+export class ProjectTitle implements OnChanges {
+  title = signal('');
+  description = signal('');
 
-  title: string = ''
-  description: string = ''
-  project$: Observable<Project[]>
+  @Input() selectedProject: Project | undefined;
 
 
-  projectService: ProjectService = inject(ProjectService)
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['selectedProject'] && changes['selectedProject'].currentValue){
+      let p = this.selectedProject;
 
-  constructor() {
-    this.project$ = this.projectService.getProjects();
-
-    this.project$.subscribe((projects) => {
-      let p = projects[0];
-      this.title = p.name;
-      this.description = p.description;
-    });
-
+      console.log(p)
+      if (p) {
+        this.title.set(p.name);
+        this.description.set(p.description);
+      }
+    }
   }
-
 }
