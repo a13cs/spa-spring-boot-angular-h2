@@ -20,7 +20,7 @@ export class ProjectTaskList {
     tasks: [],
   });
 
-  // projectService: ProjectService = inject(ProjectService);
+  projectService: ProjectService = inject(ProjectService);
 
   constructor() {
     // this.projectService.getProjects().subscribe((projects) => {
@@ -37,8 +37,24 @@ export class ProjectTaskList {
 
       // console.log(p);
       if (p) {
-        this.project.set(p)
+        this.project.set(p);
       }
     }
   }
+
+  handleCheckbox(id: number) {
+    let tasks = this.project().tasks;
+    let index = tasks.findIndex((task) => task.id === id);
+    tasks[index].completed = !tasks[index].completed;
+
+    // this.projectService.updateTask(t);
+  }
+
+  deleteTask(id: number) {
+    let tasks = this.project().tasks;
+    let index = tasks.findIndex((task) => task.id === id);
+    tasks.splice(index,1)
+    this.projectService.deleteTask(id)
+  }
+
 }

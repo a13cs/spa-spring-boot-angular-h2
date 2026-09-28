@@ -18,17 +18,19 @@
       @for(task of project().tasks; track task.id){
       <tr>
         <td>
-          <label>
-            <input type="checkbox" aria-label="Select task" [checked]="task.completed"/>
+          <label class="{{task.completed ? 'completed-task' : ''}}">
+            <input (click)="handleCheckbox(task.id)" type="checkbox" aria-label="Select task" [checked]="task.completed"/>
             {{ task.name }}
           </label>
         </td>
         <td>
+          <span class="status-dot {{task.completed ? 'completed' : 'in-progress'}}"></span>
           {{ task.completed ? 'Completed' : 'In Progress'}}
         </td>
         <td>
           {{ task.dueDate | date:'yyyy-MM-dd' }}
         </td>
+        <td> <label (click)="deleteTask(task.id)" > <button>x</button> </label> </td>
       </tr>
     }
     </tbody>

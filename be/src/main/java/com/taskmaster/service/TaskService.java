@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TaskService {
@@ -30,6 +31,14 @@ public class TaskService {
     public Task save(Project project, Task task) {
         task.setProject(project);
         return taskRepository.save(task);
+    }
+
+    public Optional<Task> find(Long id) {
+        return taskRepository.findById(id);
+    }
+
+    public void remove(Long id) {
+        taskRepository.deleteById(id);
     }
 
     @Transactional

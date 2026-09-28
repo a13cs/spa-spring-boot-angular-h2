@@ -13,7 +13,7 @@
     @for(p of projects(); track p.id){
     <tr>
       <td>
-        <label (click)="log(p)">
+        <label (click)="selectProject(p)">
           {{ p.name }}
         </label>
       </td>

@@ -23,11 +23,11 @@ export class ProjectsList {
   constructor() {
     this.projectService.getProjects().subscribe((projects) => {
       this.projects.set(projects);
-      this.project.set(projects[0]);
+      // this.project.set(projects[0]);
     });
   }
 
-  log(p: Project) {
+  selectProject(p: Project) {
     // console.log(p);
     this.selectedProject.emit(p)
   }

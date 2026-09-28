@@ -27,5 +27,8 @@ export class ProjectService {
     return this.http.get<Project>(`${BASE_URL}/projects/` + id);
   }
 
+  deleteTask(id: number) {
+    return this.http.delete(`${BASE_URL}/tasks/` + id).subscribe(() => console.log('Deleted task ' + id))
+  }
 
 }
