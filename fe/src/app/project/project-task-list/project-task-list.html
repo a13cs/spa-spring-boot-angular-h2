@@ -12,10 +12,13 @@
         <th>Task</th>
         <th>Status</th>
         <th>Due date</th>
+        <th>Edit</th>
+        <th>Delete</th>
       </tr>
     </thead>
     <tbody>
-      @for(task of project().tasks; track task.id){
+      @for(task of project().tasks; track task.id)
+      {
       <tr>
         <td>
           <label class="{{task.completed ? 'completed-task' : ''}}">
@@ -30,9 +33,22 @@
         <td>
           {{ task.dueDate | date:'yyyy-MM-dd' }}
         </td>
-        <td> <label (click)="deleteTask(task.id)" > <button>x</button> </label> </td>
+        <td> <label (click)="updateTask(task)" > ✏️ </label> </td>
+        <td> <label (click)="deleteTask(task.id)" > ❌</label> </td>
       </tr>
-    }
+      }
+      @if(project().id) {
+        <div>
+          <button class="button-container" (click)="showModal = true" >Add new Task</button>
+        </div>
+      }
+      @if(showModal){
+        <app-task-form
+          (formCancel)="showModal = false"
+          (formSubmit)="showModal = false; project().tasks.push($event)"
+          [currentProjectId]="project().id">
+        </app-task-form>
+      }
     </tbody>
   </table>
 </div>

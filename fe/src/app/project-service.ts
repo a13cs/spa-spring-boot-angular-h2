@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, httpResource } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Project } from './project.model';
+import { Task } from './task.model';
 
 const BASE_URL: String = 'http://localhost:8080/api';
 
@@ -28,7 +29,19 @@ export class ProjectService {
   }
 
   deleteTask(id: number) {
-    return this.http.delete(`${BASE_URL}/tasks/` + id).subscribe(() => console.log('Deleted task ' + id))
+    this.http.delete(`${BASE_URL}/tasks/` + id).subscribe(() => console.log('Deleted task ' + id))
+  }
+
+  updateTask(projectId: string, task: Task) {
+      this.http.put<Task>(`${BASE_URL}/tasks/` + projectId + '/' + task.id, task)
+        .subscribe((t) => {
+        console.log('Updated task ' + JSON.stringify(t))
+      })
+  }
+
+  saveTask(projectId: string, task: Task) {
+    return this.http
+      .post<Task>(`${BASE_URL}/tasks/` + projectId, task)
   }
 
 }

@@ -2,11 +2,13 @@ import { Component, inject, Input, signal, SimpleChanges, WritableSignal } from 
 import { ProjectService } from '../../project-service';
 import { Project } from '../../project.model';
 import { DatePipe } from '@angular/common';
+import { Task } from '../../task.model';
+import { TaskForm } from '../task-form/task-form';
 
 
 @Component({
   selector: 'app-project-task-list',
-  imports: [DatePipe],
+  imports: [DatePipe, TaskForm],
   templateUrl: './project-task-list.html',
   styleUrl: './project-task-list.css',
 })
@@ -20,16 +22,10 @@ export class ProjectTaskList {
     tasks: [],
   });
 
+  showModal = false;
+
   projectService: ProjectService = inject(ProjectService);
 
-  constructor() {
-    // this.projectService.getProjects().subscribe((projects) => {
-    //   this.project.set(projects[0]);
-    // this.projectService.getProject(this.project().id).subscribe((p) => {
-    //   console.log(p)
-    // });
-    // });
-  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['selectedProject'] && changes['selectedProject'].currentValue) {
@@ -45,9 +41,10 @@ export class ProjectTaskList {
   handleCheckbox(id: number) {
     let tasks = this.project().tasks;
     let index = tasks.findIndex((task) => task.id === id);
-    tasks[index].completed = !tasks[index].completed;
+    let t = tasks[index];
+    t.completed = !t.completed;
 
-    // this.projectService.updateTask(t);
+    this.projectService.updateTask(this.project().id, t);
   }
 
   deleteTask(id: number) {
@@ -55,6 +52,10 @@ export class ProjectTaskList {
     let index = tasks.findIndex((task) => task.id === id);
     tasks.splice(index,1)
     this.projectService.deleteTask(id)
+  }
+
+  updateTask(task : Task) {
+    console.log('Edit ', task)
   }
 
 }

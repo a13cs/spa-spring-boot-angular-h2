@@ -1,7 +1,5 @@
 package com.taskmaster.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.taskmaster.entity.Project;
@@ -28,9 +26,12 @@ public class TaskService {
     }
 
     @Transactional
-    public Task save(Project project, Task task) {
-        task.setProject(project);
+    public Task save(Task task) {
         return taskRepository.save(task);
+    }
+
+    public boolean existsById(Long taskId) {
+        return taskRepository.existsById(taskId);
     }
 
     public Optional<Task> find(Long id) {
