@@ -54,11 +54,11 @@ public class TaskController {
 
     @PutMapping("/{projectId}/{taskId}")
     public ResponseEntity<Task> updateTask(@PathVariable String projectId, @PathVariable Long taskId, @RequestBody Task task) {
-        if ((long) taskId != task.getId()) {
-            return ResponseEntity.badRequest().build();
-        }
+//        if ((long) taskId != task.getId()) {
+//            return ResponseEntity.badRequest().build();
+//        }
         Optional<Project> project = projectService.findById(projectId);
-        if (!project.isPresent()) {
+        if (project.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         Project p = project.get();
@@ -67,6 +67,7 @@ public class TaskController {
             return ResponseEntity.notFound().build();
         }
         task.setProject(p);
+        task.setId(taskId);
         taskService.save(task);
 
         return ResponseEntity.ok(task);

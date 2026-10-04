@@ -33,10 +33,10 @@ export class ProjectService {
   }
 
   updateTask(projectId: string, task: Task) {
-      this.http.put<Task>(`${BASE_URL}/tasks/` + projectId + '/' + task.id, task)
-        .subscribe((t) => {
-        console.log('Updated task ' + JSON.stringify(t))
-      })
+      return this.http.put<Task>(`${BASE_URL}/tasks/` + projectId + '/' + task.id, task)
+      //   .subscribe((t) => {
+      //   console.log('Updated task ' + JSON.stringify(t))
+      // })
   }
 
   saveTask(projectId: string, task: Task) {

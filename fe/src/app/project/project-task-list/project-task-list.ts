@@ -3,8 +3,16 @@ import { ProjectService } from '../../project-service';
 import { Project } from '../../project.model';
 import { DatePipe } from '@angular/common';
 import { Task } from '../../task.model';
-import { TaskForm } from '../task-form/task-form';
+import { emptyTask, TaskForm } from '../task-form/task-form';
 
+
+export const emptyProject: Project = {
+  id: '',
+  name: '',
+  description: '',
+  progress: 0,
+  tasks: [],
+};
 
 @Component({
   selector: 'app-project-task-list',
@@ -15,16 +23,14 @@ import { TaskForm } from '../task-form/task-form';
 export class ProjectTaskList {
   @Input() selectedProject: Project | undefined;
 
-  project: WritableSignal<Project> = signal({
-    id: '',
-    name: '',
-    description: '',
-    tasks: [],
-  });
+  project: WritableSignal<Project> = signal(emptyProject);
 
   showModal = false;
 
   projectService: ProjectService = inject(ProjectService);
+
+  currentTask: Task = emptyTask
+  formType: string = ''
 
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -44,7 +50,9 @@ export class ProjectTaskList {
     let t = tasks[index];
     t.completed = !t.completed;
 
-    this.projectService.updateTask(this.project().id, t);
+    this.projectService.updateTask(this.project().id, t).subscribe(t => {
+      console.log('Updated', t)
+    });
   }
 
   deleteTask(id: number) {
@@ -54,8 +62,15 @@ export class ProjectTaskList {
     this.projectService.deleteTask(id)
   }
 
-  updateTask(task : Task) {
-    console.log('Edit ', task)
+  handleSubmit(task : Task) {
+    let tasks = this.project().tasks;
+    if(this.formType === 'ADD') {
+      tasks.push(task);
+    } else if (this.formType === 'UPDATE'){
+      let i = tasks.findIndex(t => t.id === task.id);
+      tasks[i] = task
+    }
+
   }
 
 }

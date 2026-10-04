@@ -33,19 +33,21 @@
         <td>
           {{ task.dueDate | date:'yyyy-MM-dd' }}
         </td>
-        <td> <label (click)="updateTask(task)" > ✏️ </label> </td>
+        <td> <label (click)="currentTask=task; showModal=true; formType='UPDATE'" > ✏️ </label> </td>
         <td> <label (click)="deleteTask(task.id)" > ❌</label> </td>
       </tr>
       }
       @if(project().id) {
         <div>
-          <button class="button-container" (click)="showModal = true" >Add new Task</button>
+          <button class="button-container" (click)="showModal = true; formType='ADD'" >Add new Task</button>
         </div>
       }
       @if(showModal){
         <app-task-form
+          [formType]="formType"
+          [currentTask]="currentTask"
           (formCancel)="showModal = false"
-          (formSubmit)="showModal = false; project().tasks.push($event)"
+          (formSubmit)="showModal = false; handleSubmit($event)"
           [currentProjectId]="project().id">
         </app-task-form>
       }

@@ -4,5 +4,6 @@ export interface Project {
   id: string;
   name: string;
   description: string;
-  tasks: Task[]; // Array<Task>
+  progress: number,
+  tasks: Task[];
 }

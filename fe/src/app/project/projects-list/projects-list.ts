@@ -1,6 +1,7 @@
-import { Component, EventEmitter, inject, Output, signal, WritableSignal } from '@angular/core';
+import { Component, inject, output, signal, WritableSignal } from '@angular/core';
 import { Project } from '../../project.model';
 import { ProjectService } from '../../project-service';
+import { emptyProject } from '../project-task-list/project-task-list';
 
 @Component({
   selector: 'app-projects-list',
@@ -9,13 +10,8 @@ import { ProjectService } from '../../project-service';
   styleUrl: './projects-list.css',
 })
 export class ProjectsList {
-  project: WritableSignal<Project> = signal({
-    id: '',
-    name: '',
-    description: '',
-    tasks: [],
-  });
-  @Output() selectedProject: EventEmitter<any> = new EventEmitter()
+  project: WritableSignal<Project> = signal(emptyProject);
+  selectedProject = output<Project>()
 
   projects: WritableSignal<Project[]> = signal([]);
   projectService: ProjectService = inject(ProjectService);

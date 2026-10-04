@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'app-progress-bar',
@@ -6,4 +6,8 @@ import { Component } from '@angular/core';
   templateUrl: './progress-bar.html',
   styleUrl: './progress-bar.css',
 })
-export class ProgressBar {}
+export class ProgressBar {
+
+  progress = input<number>(0)
+
+}

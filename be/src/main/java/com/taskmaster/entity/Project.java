@@ -2,12 +2,13 @@ package com.taskmaster.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 
 @Entity
 public class Project {
@@ -20,6 +21,9 @@ public class Project {
     String name;
 
     String description;
+
+    @Min(0) @Max(100)
+    Integer progress;
 
     @JsonManagedReference
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -57,6 +61,15 @@ public class Project {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public Integer getProgress() {
+        return progress;
+    }
+
+    public void setProgress(Integer progress) {
+        this.progress = progress;
+    }
+
 
     public List<Task> getTasks() {
         return tasks;
