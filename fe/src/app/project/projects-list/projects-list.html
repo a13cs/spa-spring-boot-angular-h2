@@ -7,20 +7,44 @@
     <tr>
       <th>Project</th>
       <th>Tasks</th>
+      <th>Progress</th>
+      <th>Edit</th>
+      <th>Delete</th>
     </tr>
     </thead>
     <tbody>
     @for(p of projects(); track p.id){
-    <tr>
+    <tr [class]="currentProject.id===p.id? 'selected-project' : ''">
       <td>
         <label (click)="selectProject(p)">
           {{ p.name }}
         </label>
       </td>
       <td>
-        {{ p.tasks.length }}
+        {{ p.tasks ? p.tasks.length : 0 }}
+      </td>
+      <td>
+        {{ p.progress }} %
+      </td>
+      <td>
+        <button class="button-container" (click)="currentProject=p; showModal=true; formType='UPDATE'"> ✏️ </button>
+      </td>
+      <td>
+        <button class="button-container" (click)="deleteProject(p)"> ❌ </button>
       </td>
     </tr>
+    }
+    <div>
+      <button class="button-container" (click)="showModal=true; formType='ADD'">Add New Project</button>
+    </div>
+
+    @if(showModal) {
+      <app-project-form
+        [formType]="formType"
+        [currentProject]="currentProject"
+        (formCancel)="showModal=false;"
+        (formSubmit)="showModal=false; handleSubmit($event);"
+      ></app-project-form>
     }
     </tbody>
   </table>

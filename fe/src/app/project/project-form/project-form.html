@@ -1,0 +1,27 @@
+<div class="modal">
+
+  <div class="modal-content">
+    <form [formGroup]="projectForm" (ngSubmit)="handleSubmit()">
+      <div>
+        <p>{{formType() === 'ADD' ? 'Add New' : 'Update'}} Project</p>
+      </div>
+      <div>
+        <label for="name">Name</label>
+        <input id="name" formControlName="name">
+      </div>
+      <div>
+        <label for="description">Description</label>
+        <input id="description" formControlName="description">
+      </div>
+      <div>
+        <label for="progress">Progress</label>
+        <input id="progress" formControlName="progress">
+      </div>
+      <div class="button-container">
+        <button class="cancel-button" type="button" (click)="handleCancel()">Cancel</button>
+        <button class="submit-button" type="submit" [disabled]="projectForm.invalid">Submit</button>
+      </div>
+    </form>
+  </div>
+
+</div>

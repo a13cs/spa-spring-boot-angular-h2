@@ -2,14 +2,8 @@ import { Component, EventEmitter, inject, input, Input, OnInit, Output } from '@
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Task } from '../../task.model';
 import { ProjectService } from '../../project-service';
+import { formatDate } from '@angular/common';
 
-export const emptyTask: Task = {
-  id: 0,
-  name: '',
-  description: '',
-  dueDate: new Date(),
-  completed: false,
-};
 
 @Component({
   selector: 'app-task-form',
@@ -23,25 +17,24 @@ export class TaskForm implements OnInit {
   @Output() formCancel: EventEmitter<any> = new EventEmitter<'CANCEL'>();
   @Input() currentProjectId: string = '';
   formType = input<string>();
-  currentTask = input<Task>();
+  currentTask = input<Task | undefined>();
 
   projectService: ProjectService = inject(ProjectService);
 
   constructor(private fb: FormBuilder) {
+    let date = formatDate(new Date(), 'yyyy-MM-dd', 'en-US');
+
     this.taskForm = this.fb.group({
-      id:[0],
+      id:[null],
       name: ['', Validators.required],
       description: [''],
-      dueDate: ['', Validators.required],
+      dueDate: [date, Validators.required],
       completed: false,
     });
   }
   ngOnInit(): void {
     if (this.formType() === 'UPDATE') {
       this.taskForm.patchValue({ ...this.currentTask() });
-    }
-    if (this.formType() === 'ADD') {
-      this.taskForm.patchValue({ ...emptyTask, id: null});
     }
   }
 

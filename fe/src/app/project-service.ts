@@ -11,37 +11,43 @@ const BASE_URL: String = 'http://localhost:8080/api';
   providedIn: 'root',
 })
 export class ProjectService {
+  constructor(private http: HttpClient) {}
 
-  constructor(private http: HttpClient) {
-
-  }
-  projectsResource = httpResource<Project[]>(
-    () => BASE_URL + "/projects/all",
-    {defaultValue : []}
-  );
+  // projectsResource = httpResource<Project[]>(() => BASE_URL + '/projects/all', {
+  //   defaultValue: [],
+  // });
 
   getProjects(): Observable<Project[]> {
     return this.http.get<Project[]>(`${BASE_URL}/projects/all`);
   }
 
-  getProject(id: string) : Observable<Project> {
-    return this.http.get<Project>(`${BASE_URL}/projects/` + id);
+  // getProject(id: string): Observable<Project> {
+  //   return this.http.get<Project>(`${BASE_URL}/projects/` + id);
+  // }
+
+  updateProject(projectId: string, p: Project) {
+    return this.http.put<Project>(`${BASE_URL}/projects/` + projectId, p);
+  }
+
+  saveProject(p : Project) {
+    return this.http.post<Project>(`${BASE_URL}/projects`, p);
+  }
+
+  deleteProject(id: string) {
+    this.http
+      .delete(`${BASE_URL}/projects/` + id)
+      .subscribe(() => console.log('Deleted project ' + id));
   }
 
   deleteTask(id: number) {
-    this.http.delete(`${BASE_URL}/tasks/` + id).subscribe(() => console.log('Deleted task ' + id))
+    this.http.delete(`${BASE_URL}/tasks/` + id).subscribe(() => console.log('Deleted task ' + id));
   }
 
   updateTask(projectId: string, task: Task) {
-      return this.http.put<Task>(`${BASE_URL}/tasks/` + projectId + '/' + task.id, task)
-      //   .subscribe((t) => {
-      //   console.log('Updated task ' + JSON.stringify(t))
-      // })
+    return this.http.put<Task>(`${BASE_URL}/tasks/` + projectId + '/' + task.id, task);
   }
 
   saveTask(projectId: string, task: Task) {
-    return this.http
-      .post<Task>(`${BASE_URL}/tasks/` + projectId, task)
+    return this.http.post<Task>(`${BASE_URL}/tasks/` + projectId, task);
   }
-
 }

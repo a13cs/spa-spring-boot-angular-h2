@@ -41,14 +41,15 @@ public class ProjectController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ProjectIdResponse> save(@RequestBody @Valid Project project) throws JsonProcessingException {
+    public ResponseEntity<Project> save(@RequestBody @Valid Project project) throws JsonProcessingException {
         Project saved = projectService.save(null, project);
 
-        ProjectIdResponse response = new ProjectIdResponse();
-        String id = saved.getId();
-        response.setId(id);
-
-        return ResponseEntity.created(URI.create("/" + id)).body(response);
+//        ProjectIdResponse response = new ProjectIdResponse();
+//        String id = saved.getId();
+//        response.setId(id);
+//
+//        return ResponseEntity.created(URI.create("/" + id)).body(response);
+        return ResponseEntity.ok(saved);
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)

@@ -35,6 +35,10 @@
     background-color: #f9f9f9;
   }
 
+  .selected-project {
+    background-color: #f9f9f9;
+  }
+
   input[type="checkbox"] {
     margin-right: 10px;
     vertical-align: middle;

@@ -1,9 +1,13 @@
-import { Component, inject, Input, signal, SimpleChanges, WritableSignal } from '@angular/core';
+import {
+  Component,
+  inject,
+  input,
+} from '@angular/core';
 import { ProjectService } from '../../project-service';
 import { Project } from '../../project.model';
 import { DatePipe } from '@angular/common';
 import { Task } from '../../task.model';
-import { emptyTask, TaskForm } from '../task-form/task-form';
+import { TaskForm } from '../task-form/task-form';
 
 
 export const emptyProject: Project = {
@@ -21,28 +25,14 @@ export const emptyProject: Project = {
   styleUrl: './project-task-list.css',
 })
 export class ProjectTaskList {
-  @Input() selectedProject: Project | undefined;
-
-  project: WritableSignal<Project> = signal(emptyProject);
+  project = input<Project>(emptyProject)
 
   showModal = false;
 
   projectService: ProjectService = inject(ProjectService);
 
-  currentTask: Task = emptyTask
+  currentTask: Task | undefined = undefined
   formType: string = ''
-
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['selectedProject'] && changes['selectedProject'].currentValue) {
-      let p = this.selectedProject;
-
-      // console.log(p);
-      if (p) {
-        this.project.set(p);
-      }
-    }
-  }
 
   handleCheckbox(id: number) {
     let tasks = this.project().tasks;

@@ -2,7 +2,7 @@
   <app-projects-list (selectedProject)="p=$event"></app-projects-list>
   @if(p) {
     <app-project-title [selectedProject]="p"></app-project-title>
-    <app-project-task-list [selectedProject]="p"></app-project-task-list>
+    <app-project-task-list [project]="p"></app-project-task-list>
     <app-progress-bar [progress]="p.progress"></app-progress-bar>
   }
 </div>
